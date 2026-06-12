@@ -111,6 +111,10 @@
           savedLogin.password === loginData.password
         ) {
           alert("Login Successful");
+
+          savedLogin.isLoggedIn = true;
+          localStorage.setItem("user", JSON.stringify(savedLogin));
+
           window.location.href = "./dashboard.html";
         } else {
           alert("Invalid email or password");

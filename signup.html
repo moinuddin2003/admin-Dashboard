@@ -132,10 +132,10 @@
               id="dropDown-options"
               class="w-full h-10 text-base border-none bg-transparent outline-none px-1 text-gray-800 cursor-pointer appearance-none pr-8"
             >
-            <option value="admin">Admin</option>
-            
-            <option value="admin">Admin</option>
-            <!-- <option value="user">User</option>
+              <option value="admin">Admin</option>
+
+              <option value="admin">Admin</option>
+              <!-- <option value="user">User</option>
             <option value="guest">Guest</option> -->
             </select>
 
@@ -187,6 +187,7 @@
       signupForm.addEventListener("submit", (e) => {
         e.preventDefault();
         Signup(e);
+        window.location.href = "./login.html";
       });
 
       function Signup(e) {

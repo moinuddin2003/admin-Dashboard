@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 font-sans min-h-screen">
+    <nav class="bg-white shadow-md px-6 py-4 flex justify-between items-center">
+      <h1 class="text-xl font-bold text-[#2691d9]">Admin Dashboard</h1>
+
+      <div class="relative">
+        <button
+          id="avatarBtn"
+          class="w-10 h-10 rounded-full overflow-hidden border-2 border-[#2691d9] focus:outline-none"
+        >
+          <img src="" alt="Avatar" class="w-full h-full object-cover" />
+        </button>
+
+        <div
+          id="logoutDropdown"
+          class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-50 border border-gray-200"
+        >
+          <button
+            id="logoutBtn"
+            class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 transition-colors"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <main class="p-6 max-w-6xl mx-auto">
+      <div class="bg-white rounded-lg shadow-md p-6 overflow-hidden">
+        <h2 class="text-xl font-semibold mb-4 text-gray-700">
+          Registered Users (API Data)
+        </h2>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr
+                class="bg-gray-50 border-b border-gray-200 text-gray-600 text-sm uppercase tracking-wider"
+              >
+                <th class="py-3 px-4">ID</th>
+                <th class="py-3 px-4">Name</th>
+                <th class="py-3 px-4">Email</th>
+                <th class="py-3 px-4">Gender</th>
+                <th class="py-3 px-4">Company</th>
+              </tr>
+            </thead>
+            <tbody
+              id="userTableBody"
+              class="divide-y divide-gray-100 text-sm text-gray-700"
+            >
+              <tr id="loadingRow">
+                <td colspan="5" class="py-8 text-center text-gray-500">
+                  Loading users data...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      function Dashboard() {
+        const savedUser = JSON.parse(localStorage.getItem("user"));
+        console.log(savedUser);
+
+        if (!savedUser || savedUser.isLoggedIn !== true) {
+          window.location.href = "./login.html";
+        } else {
+          console.log("Welcome to Dashboard");
+
+          fetchUsers();
+        }
+      }
+
+      async function fetchUsers() {
+        try {
+          const response = await fetch("https://dummyjson.com/users");
+          const data = await response.json();
+          console.log(data);
+        } catch (err) {
+          console.log("Error", err);
+        }
+      }
+      Dashboard();
+    </script>
+  </body>
+</html>
