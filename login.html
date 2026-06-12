@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Animated Login page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Custom animation behavior for the floating labels */
+      .text-field input:focus ~ label,
+      .text-field input:not(:placeholder-shown) ~ label {
+        top: -5px;
+        font-size: 14px;
+        color: #2691d9;
+      }
+      /* Custom animation for the bottom border line */
+      .text-field input:focus ~ span::before,
+      .text-field input:not(:placeholder-shown) ~ span::before {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body
+    class="margin-0 padding-0 font-serif bg-gradient-to-r from-[#2980b9] to-[#8e44ad] h-screen overflow-hidden flex items-center justify-center p-4"
+  >
+    <div
+      class="w-full max-w-[400px] bg-white rounded-[10px] shadow-xl p-10 box-border"
+    >
+      <h1
+        class="text-center text-3xl font-bold pb-5 border-b border-gray-300 mb-8"
+      >
+        Login
+      </h1>
+
+      <form id="loginForm" class="space-y-8">
+        <div class="text-field relative border-b-2 border-[#adadad] my-7">
+          <input
+            type="text"
+            id="email"
+            name="email"
+            placeholder=""
+            class="w-full h-10 text-base border-none bg-none outline-none px-1 text-gray-800"
+          />
+          <span
+            class="before:content-[''] before:absolute before:top-10 before:left-0 before:w-0 before:h-[2px] before:bg-[#2691d9] before:transition-all before:duration-500"
+          ></span>
+          <label
+            class="absolute top-1/2 left-[3px] text-[#adadad] -translate-y-1/2 text-base pointer-events-none transition-all duration-500"
+            >Email</label
+          >
+        </div>
+
+        <div class="text-field relative border-b-2 border-[#adadad] my-7">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder=""
+            class="w-full h-10 text-base border-none bg-none outline-none px-1 text-gray-800"
+          />
+          <span
+            class="before:content-[''] before:absolute before:top-10 before:left-0 before:w-0 before:h-[2px] before:bg-[#2691d9] before:transition-all before:duration-500"
+          ></span>
+          <label
+            class="absolute top-1/2 left-[3px] text-[#adadad] -translate-y-1/2 text-base pointer-events-none transition-all duration-500"
+            >Password</label
+          >
+        </div>
+
+        <div
+          class="text-[#a6a6a6] cursor-pointer hover:underline text-sm -mt-4 ml-1"
+        >
+          Forgot Password?
+        </div>
+
+        <button
+          type="submit"
+          class="w-full h-[50px] bg-[#2691d9] text-[#e9f4fb] rounded-[20px] text-lg font-bold cursor-pointer outline-none border border-transparent hover:border-[#2691d9] transition-all duration-500"
+        >
+          Login
+        </button>
+
+        <div class="mt-8 text-center text-base text-[#666666]">
+          Not a member?
+          <a
+            href="./signup.html"
+            class="text-[#2691d9] no-underline hover:underline"
+            >Sign Up</a
+          >
+        </div>
+      </form>
+    </div>
+    <script>
+      const loginForm = document.getElementById("loginForm");
+      loginForm.addEventListener("submit", (e) => {
+        console.log("Event Listerner Called");
+        e.preventDefault();
+        Login(e);
+      });
+      function Login(e) {
+        console.log("FUnction Called");
+        const formData = new FormData(e.target);
+        const loginData = Object.fromEntries(formData);
+        console.log("This is the Login Data", loginData);
+        const savedLogin = JSON.parse(localStorage.getItem("user"));
+        console.log(savedLogin);
+
+        if (
+          savedLogin.email === loginData.email &&
+          savedLogin.password === loginData.password
+        ) {
+          alert("Login Successful");
+          window.location.href = "./dashboard.html";
+        } else {
+          alert("Invalid email or password");
+        }
+      }
+    </script>
+  </body>
+</html>
