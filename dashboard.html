@@ -1,4 +1,4 @@
-<!doctype html>
+t<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -38,17 +38,13 @@
           Registered Users (API Data)
         </h2>
 
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto h-screen">
           <table class="w-full text-left border-collapse">
             <thead>
               <tr
                 class="bg-gray-50 border-b border-gray-200 text-gray-600 text-sm uppercase tracking-wider"
               >
-                <th class="py-3 px-4">ID</th>
-                <th class="py-3 px-4">Name</th>
-                <th class="py-3 px-4">Email</th>
-                <th class="py-3 px-4">Gender</th>
-                <th class="py-3 px-4">Company</th>
+                <!-- <th class="py-3 px-4">ID</th> -->
               </tr>
             </thead>
             <tbody
@@ -86,32 +82,62 @@
           const data = await response.json();
           console.log(data);
 
-          const tableBody = document.getElementById("userTableBody");
+          const keys = Object.keys(data.users[0]);
+          console.log(keys);
 
+          const tableHeadRow = document.querySelector("thead tr");
+          tableHeadRow.innerHTML = "";
+
+          keys.forEach((key) => {
+            tableHeadRow.insertAdjacentHTML(
+              "beforeend",
+              `
+                <th class="py-3 px-4 uppercase">${key}</th>
+            `,
+            );
+          });
+
+          const tableBody = document.getElementById("userTableBody");
           tableBody.innerHTML = "";
 
           data.users.forEach((user) => {
-            tableBody.insertAdjacentHTML(
-              "beforeend",
-              `
-            <tr class="border-b border-gray-100 hover:bg-gray-50">
-            <td class="py-3 px-4">${user.id}</td>
-            <td class="py-3 px-4">${user.firstName}</td>
-            <td class="py-3 px-4">${user.email}</td>
-            <td class="py-3 px-4">${user.gender}</td>
-            <td class="py-3 px-4">${user.company.name}</td>
-            </tr>
-            `,
-            );
-            console.log(
-              `id: ${user.id} Name:${user.firstName} Email: ${user.email} Gender:${user.gender} Company:${user.company.name} `,
-            );
+            let rowHTML = `
+              <tr class="border-b border-gray-100 hover:bg-gray-50">
+        `;
+            const values = Object.values(user);
+
+            console.log(values);
+
+            values.forEach((insideUser) => {
+              if (insideUser && typeof insideUser === "object") {
+                rowHTML += `<td class="py-3 px-4>${insideUser.name || Object.values(insideUser)[0]} </td>`;
+              } else {
+                rowHTML += `<td class="py-3 px-4>${insideUser}</td>`;
+              }
+            });
+
+            rowHTML += `</tr>`;
+
+            tableBody.insertAdjacentHTML("beforeend", rowHTML);
+            // console.log(
+            //   `id: ${user.id} Name:${user.firstName} Email: ${user.email} Gender:${user.gender} Company:${user.company.name} `,
+            // );
           });
         } catch (err) {
           console.log("Error", err);
         }
       }
       Dashboard();
+
+      const avatorBtn = document.getElementById("avatarBtn");
+      const logoutDropdown = document.getElementById("logoutDropdown");
+      const logoutBtn = document.getElementById("logoutBtn");
+      avatorBtn.addEventListener("click", (e) => {
+        logoutDropdown.classList.toggle("hidden");
+      });
+      logoutBtn.addEventListener("click", (e) => {
+        window.location.replace("./login.html");
+      });
     </script>
   </body>
 </html>
